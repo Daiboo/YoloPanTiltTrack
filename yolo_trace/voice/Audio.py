@@ -9,7 +9,7 @@ import time
 
 
 class AudioThread(QThread):
-    # 定义一个信号，参数为识别结果的类型，这里假设为str
+    
     recognition_result_signal = pyqtSignal(str)
     begin_record_signal = pyqtSignal(str)
     end_record_signal = pyqtSignal(str)
@@ -77,7 +77,6 @@ class AudioThread(QThread):
     
     def start(self):
         self._run_flag = True
-        # 执行父类start函数
         super().start()
 
     def stop(self):

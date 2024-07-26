@@ -22,7 +22,7 @@ class App(QWidget):
     def __init__(self, yolov5_wrapper, cam, yuntai):
         super().__init__()
         self.setWindowTitle("PyQt YOLOv5 Trace")
-        # 是否加载模型
+        
         self.yolov5_wrapper = yolov5_wrapper
         self.disply_width = 700
         self.display_height = 500
@@ -31,7 +31,6 @@ class App(QWidget):
         # 设置窗口的初始大小
         self.resize(self.disply_width, self.display_height)
         
-        
         self.image_label = QLabel(self)
         self.image_label.resize(640, 480)
         self.cam_closed_pixmap = QPixmap("source/cam_closed.png")
@@ -39,13 +38,14 @@ class App(QWidget):
         
         self.image_label.setPixmap(self.cam_closed_pixmap)
         
+        
+        # 将线程里的信号连接槽函数
         self.video_thread = VideoThread(yolov5_wrapper, cam)
         self.video_thread.change_pixmap_signal.connect(self.update_image)
         
         self.yuntai = yuntai
         self.yuntai_thread = YuntaiThread(yuntai, 640, 480)
         self.video_thread.infer_results_signal.connect(self.yuntai_thread.handle_infer_result)
-        
         self.yuntai_thread.start()
         
         self.audio_thread = AudioThread(APP_ID, API_KEY, SECRET_KEY)
@@ -380,5 +380,4 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"发生异常: {e}")
     finally:
-
         print("资源已释放")

@@ -4,7 +4,7 @@ import time
 import threading
 
 delay_capture = False  # True表示开启延时拍照，False表示关闭
-delay_seconds = 5  # 延时5秒
+delay_seconds = 5      # 拍照的延时时间
 
 # 定义摄像头ID
 device_id = 0

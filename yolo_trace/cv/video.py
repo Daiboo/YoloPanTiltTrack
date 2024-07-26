@@ -7,8 +7,8 @@ import cv2
 
 class VideoThread(QThread):
     change_pixmap_signal = pyqtSignal(QImage)
-    # 定义一个信号，参数为推断结果的类型，这里假设为str
     infer_results_signal = pyqtSignal(dict)
+    
     def __init__(self, yolov5_wrapper, cam):
         super().__init__()
         self._run_flag = True
@@ -34,7 +34,7 @@ class VideoThread(QThread):
                     self.infer_results_signal.emit(infer_results)
                     frame = result
                     
-                # 计算帧率
+                # 帧率
                 current_time = time.time()
                 fps = 1 / (current_time - prev_time)
             
@@ -56,5 +56,5 @@ class VideoThread(QThread):
     
     def start(self):
         self._run_flag = True
-        # 执行父类start函数
+        # 父类start函数
         super().start()

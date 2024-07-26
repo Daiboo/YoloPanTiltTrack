@@ -43,10 +43,10 @@ class PID:
 class YuntaiTrack:
     def __init__(self):
         self.kit = ServoKit(channels=16)
-        self.pan_pid = PID(0.022, 0.0, 0.013)  # PID参数可能需要根据实际情况调整
+        self.pan_pid = PID(0.022, 0.0, 0.013) 
         self.tilt_pid = PID(0.022, 0.0, 0.013)
-        self.pan_servo = 0  # 假设水平舵机在通道0
-        self.tilt_servo = 1  # 假设垂直舵机在通道1
+        self.pan_servo = 0   # 水平舵机在通道0
+        self.tilt_servo = 1  # 垂直舵机在通道1
         # self.kalman_filter_x = KalmanFilter(1, 0.1, 0.2)
         # self.kalman_filter_y = KalmanFilter(1, 0.1, 0.2)
         # 初始化舵机位置
@@ -70,7 +70,7 @@ class YuntaiTrack:
         # filtered_error_x = self.kalman_filter_x.get_current_estimate()
         # filtered_error_y = self.kalman_filter_y.get_current_estimate()
         
-        # 使用PID算法计算舵机调整角度
+        # PID算法计算舵机调整角度
         pan_adjust = self.pan_pid.compute(0, error_x)
         tilt_adjust = self.tilt_pid.compute(0, error_y)
 
@@ -91,7 +91,6 @@ class YuntaiTrack:
         self.kit.servo[self.tilt_servo].angle = new_tilt_angle
 
 
-# 云台控制线程
 class YuntaiThread(threading.Thread):
     def __init__(self, yuntai_track, img_width, img_height):
         super().__init__()
@@ -102,9 +101,9 @@ class YuntaiThread(threading.Thread):
         self.target_y = None
         self.target_name = None
         self.run_start = False
-        self.lock = threading.Lock()  # 用于线程安全
+        self.lock = threading.Lock()            
         self.condition = threading.Condition()  # 用于等待/通知机制
-        self.stop_event = threading.Event()  # 用于停止线程 
+        self.stop_event = threading.Event()     
         
     def set_target_name(self, target_name):
         with self.lock:
@@ -133,7 +132,6 @@ class YuntaiThread(threading.Thread):
             return
         # print("目标位置：", self.target_x, self.target_y)
           
-    
     def run(self):
         while not self.stop_event.is_set():
             with self.condition:
